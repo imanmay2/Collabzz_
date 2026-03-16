@@ -1,262 +1,87 @@
-
-
-# 📄 README.md
-
-```md
 # Collabzz Team Task Manager API
 
-A RESTful API built with Node.js, Express, and MongoDB for managing team tasks with JWT-based authentication.
-
-This project was developed as part of the Collabzz Backend Developer Intern Screening Task.
-
----
-
 ## 🚀 Tech Stack
-
 - Node.js
 - Express.js
-- MongoDB (Mongoose)
-- JWT (Authentication)
-- bcryptjs (Password Hashing)
-- dotenv
+- MongoDB
+- JWT Authentication
+- bcryptjs
 
 ---
 
-## 📁 Project Structure
+## 📦 Setup Instructions
 
-```
+1. Clone the repository
+2. Run:
+   npm install
 
-collabzz-task-manager/
-│
-├── config/
-│   └── db.js
-├── controllers/
-│   ├── authController.js
-│   └── taskController.js
-├── middleware/
-│   ├── authMiddleware.js
-│   └── errorMiddleware.js
-├── models/
-│   ├── User.js
-│   └── Task.js
-├── routes/
-│   ├── authRoutes.js
-│   └── taskRoutes.js
-├── utils/
-│   └── generateToken.js
-├── server.js
-└── .env
+3. Create a `.env` file in root:
 
-```
+PORT=8000  
+MONGO_URI=your_mongo_uri  
+JWT_SECRET=your_secret  
 
----
+4. Start server:
+   npm run dev
 
-## ⚙️ Setup Instructions
-
-### 1️⃣ Clone Repository
-
-```
-
-git clone <your-repo-link>
-cd collabzz-task-manager
-
-```
-
-### 2️⃣ Install Dependencies
-
-```
-
-npm install
-
-```
-
-### 3️⃣ Create `.env` File
-
-Create a `.env` file in the root directory:
-
-```
-
-PORT=8000
-MONGO_URI=your_mongodb_connection_string
-JWT_SECRET=your_secret_key
-
-```
-
-### 4️⃣ Run the Server
-
-```
-
-npm run dev
-
-```
-
-Server will run at:
-
-```
-
-[http://localhost:8000](http://localhost:8000)
-
-````
+Server runs at:
+http://localhost:8000
 
 ---
 
 ## 🔐 Authentication
 
-### Register User
-
-**POST** `/auth/register`
+### Register
+POST /auth/register
 
 Body:
-```json
 {
-  "name": "John Doe",
+  "name": "John",
   "email": "john@test.com",
   "password": "123456"
 }
-````
 
-Returns:
+### Login
+POST /auth/login
 
-* User info
-* JWT token
+Returns JWT token.
 
----
+Use token in header:
 
-### Login User
-
-**POST** `/auth/login`
-
-Body:
-
-```json
-{
-  "email": "john@test.com",
-  "password": "123456"
-}
-```
-
-Returns:
-
-* User info
-* JWT token
+Authorization: Bearer <token>
 
 ---
 
-## 🔑 Using Protected Routes
-
-All `/tasks` routes require a valid JWT token.
-
-Add this header:
-
-```
-Authorization: Bearer <your_token_here>
-```
-
----
-
-## 📋 Task Routes
+## 📋 Task Routes (Protected)
 
 ### Create Task
+POST /tasks
 
-**POST** `/tasks`
+### Get Tasks (With Pagination)
+GET /tasks?page=1&limit=5
 
-Body:
+### Filter by Status
+GET /tasks?status=todo
 
-```json
-{
-  "title": "Complete API",
-  "description": "Finish backend implementation",
-  "status": "todo"
-}
-```
-
----
-
-### Get All Tasks (With Pagination)
-
-**GET** `/tasks?page=1&limit=5`
-
-Returns paginated tasks.
-
----
-
-### Filter Tasks by Status
-
-**GET** `/tasks?status=todo`
-
-Allowed status values:
-
-* todo
-* in-progress
-* done
-
----
-
-### Get Single Task
-
-**GET** `/tasks/:id`
-
----
+### Get Task by ID
+GET /tasks/:id
 
 ### Update Task
-
-**PUT** `/tasks/:id`
-
-Only the task creator can update.
-
-Body:
-
-```json
-{
-  "title": "Updated Title",
-  "status": "done"
-}
-```
-
----
+PUT /tasks/:id
 
 ### Delete Task
-
-**DELETE** `/tasks/:id`
-
-Only the task creator can delete.
+DELETE /tasks/:id
 
 ---
 
 ## 📌 Business Rules Implemented
 
-* Passwords are securely hashed using bcrypt.
-* JWT-based authentication protects all task routes.
-* Only the creator of a task can update or delete it.
-* Task status is restricted using enum validation.
-* Pagination implemented for scalable task retrieval.
-* Proper HTTP status codes used.
-* Modular and clean folder structure.
-
----
-
-## 🧪 Testing
-
-The API was tested using Postman.
-
-Include the exported Postman collection in this repository for easier testing.
-
----
-
-## 🚀 Optional Improvements (Future Scope)
-
-* Search tasks by title
-* Role-based access control (Admin)
-* Deployment on cloud platform (Render/Railway)
-* Unit testing with Jest
-
----
-
-## 👨‍💻 Author
-
-Manmay Chakraborty
-Backend Developer Intern Candidate
-
-```
-
----
+- Passwords are securely hashed
+- JWT-based authentication
+- Only task creator can update or delete tasks
+- Task status restricted to:
+  - todo
+  - in-progress
+  - done
+- Pagination implemented for scalability
+- Proper HTTP status codes used
